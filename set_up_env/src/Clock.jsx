@@ -44,7 +44,7 @@ class Clock extends React.Component {
     console.log('componentDidUpdate');
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     console.log('componentWillUnmount');
   }
 
