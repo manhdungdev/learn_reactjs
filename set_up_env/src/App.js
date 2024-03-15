@@ -4,6 +4,9 @@ import Clock from './Clock';
 import BareInput from './BareInput';
 import Layout from './Layout';
 import BareButton from './BareButton';
+import LoginController from './LoginController';
+import CorrectlyState from './CorrectlyState';
+import ProductList from './product_list/ProductList';
 
 function App() {
   const [visible, setVisible] = useState(true);
@@ -11,11 +14,16 @@ function App() {
     <div className='App'>
       {/* <button onClick={() => setVisible(false)}>Hide Clock component</button>
       {visible && <Clock />} */}
-      <Layout>
+      {/* <Layout>
         <h1>Hello world</h1>
         <BareInput type='password' value={120} autoFocus className='input-control' onChange={() => {}} />
       </Layout>
-      <BareButton />
+      <BareButton /> */}
+
+      {/* <LoginController isLogined={false} isHidden={true} /> */}
+      {/* <CorrectlyState /> */}
+
+      <ProductList />
     </div>
   );
 }
