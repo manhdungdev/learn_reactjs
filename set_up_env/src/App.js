@@ -10,6 +10,8 @@ import ProductList from './product_list/ProductList';
 import Form from './form/Form';
 import Uncontrol from './form/Uncontrol';
 import Calculator from './calculation/Calculator';
+import Inheritance from './inheritance_composition/Inheritance';
+import Composition from './inheritance_composition/Composition';
 
 function App() {
   const [visible, setVisible] = useState(true);
@@ -30,7 +32,9 @@ function App() {
       {/* <Form /> */}
       {/* <Uncontrol /> */}
 
-      <Calculator />
+      {/* <Calculator /> */}
+      {/* <Inheritance /> */}
+      <Composition />
     </div>
   );
 }
