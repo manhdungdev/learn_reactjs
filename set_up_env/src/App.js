@@ -12,9 +12,16 @@ import Uncontrol from './form/Uncontrol';
 import Calculator from './calculation/Calculator';
 import Inheritance from './inheritance_composition/Inheritance';
 import Composition from './inheritance_composition/Composition';
+import FilterableProductTable from './thinking_react/FilterableProductTable';
+import Cart from './learn_scss/Cart';
+import User from './user/User';
 
 function App() {
-  const [visible, setVisible] = useState(true);
+  const [isShow, setIsShow] = useState(true);
+
+  const changeState = () => {
+    setIsShow((prev) => !prev);
+  };
   return (
     <div className='App'>
       {/* <button onClick={() => setVisible(false)}>Hide Clock component</button>
@@ -34,7 +41,11 @@ function App() {
 
       {/* <Calculator /> */}
       {/* <Inheritance /> */}
-      <Composition />
+      {/* <Composition /> */}
+      {/* <FilterableProductTable /> */}
+      {/* <Cart isShow={'a'} /> */}
+      {isShow && <User />}
+      <button onClick={changeState}>Change state</button>
     </div>
   );
 }
