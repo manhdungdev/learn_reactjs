@@ -15,6 +15,9 @@ import Composition from './inheritance_composition/Composition';
 import FilterableProductTable from './thinking_react/FilterableProductTable';
 import Cart from './learn_scss/Cart';
 import User from './user/User';
+import AutoBatching from './AutoBatching';
+import Navigation from './custom_hook/Navigation';
+import Header from './custom_hook/Header';
 
 function App() {
   const [isShow, setIsShow] = useState(true);
@@ -44,8 +47,12 @@ function App() {
       {/* <Composition /> */}
       {/* <FilterableProductTable /> */}
       {/* <Cart isShow={'a'} /> */}
-      {isShow && <User />}
-      <button onClick={changeState}>Change state</button>
+      {/* {isShow && <User />}
+      <button onClick={changeState}>Change state</button> */}
+      {/* <AutoBatching /> */}
+
+      <Navigation />
+      <Header />
     </div>
   );
 }
