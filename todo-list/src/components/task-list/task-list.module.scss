@@ -1,0 +1,42 @@
+.item {
+  margin: 20px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  & + & {
+    margin-top: 20px;
+  }
+
+  &_label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    input {
+      width: 16px;
+      height: 16px;
+    }
+    span {
+      font-size: 1.8rem;
+      font-weight: 500;
+
+      &.done {
+        text-decoration: line-through;
+        color: rgb(196, 194, 194);
+      }
+    }
+  }
+
+  &_btns {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+  }
+
+  &_btn {
+    padding: 6px;
+    border-radius: 4px;
+    border: 1px solid #aaa;
+    background: rgba(0, 0, 0, 0.1);
+  }
+}

@@ -1,0 +1,27 @@
+
+
+.input{
+    flex: 1;
+    margin: 20px 0;
+    border: 2px solid #bbb;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-weight: 500;
+
+    &_wrap{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+    }
+
+    &_btn{
+        padding:  10px 12px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 8px;
+        border: 2px solid #aaa;
+    }
+}
+
