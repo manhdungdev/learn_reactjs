@@ -1,15 +1,18 @@
 import React, { useState } from 'react'
 import styles from './task-input.module.scss'
 import { Todo } from '../../@types/Todo.type'
+import { debug, log } from '../todo-list/constant'
+import connect from '../todo-list/connect'
 
-interface TaskInputProps {
+interface TaskInputProps  {
   addTodo: (name: string) => void
   currentTodo: Todo | null
   editTodo: (name: string) => void
   finishedEdit: () => void
 }
-export default function TaskInput(props: TaskInputProps) {
-  const { addTodo, editTodo, finishedEdit, currentTodo } = props
+export function TaskInput(props: TaskInputProps & typeof injectedProps) {
+  const { addTodo, editTodo, finishedEdit, currentTodo,log, debug } = props
+  log(debug)
   const [name, setName] = useState<string>('')
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -46,3 +49,5 @@ export default function TaskInput(props: TaskInputProps) {
     </div>
   )
 }
+const injectedProps = { debug: debug, log: log }
+export default connect(injectedProps)(TaskInput)

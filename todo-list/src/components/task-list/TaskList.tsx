@@ -1,16 +1,18 @@
 import React from 'react'
 import styles from './task-list.module.scss'
 import { Todo } from '../../@types/Todo.type'
+import connect, { InjecredType } from '../todo-list/connect'
 
-interface TaskListProps {
+interface TaskListProps extends InjecredType {
   doneTask?: boolean
   todos: Todo[]
   handleDoneTodo: (id: string, done: boolean) => void
   startEditTodo: (id: string) => void
   deleteTodo: (id: string) => void
 }
-export default function TaskList(props: TaskListProps) {
-  const { todos, doneTask, handleDoneTodo, startEditTodo, deleteTodo } = props
+export function TaskList(props: TaskListProps) {
+  const { todos, doneTask, handleDoneTodo, startEditTodo, deleteTodo, user  } = props
+  console.log(user)
   return (
     <div>
       <h2 className={styles.heading}>{doneTask ? 'Finished' : 'Unfinished'}</h2>
@@ -40,3 +42,5 @@ export default function TaskList(props: TaskListProps) {
     </div>
   )
 }
+
+export default connect({user: {name: 'Dung', age: 21 }})(TaskList)
