@@ -6,6 +6,7 @@ import TodoList from './components/todo-list'
 import Watch from './components/watch'
 import Count from './components/count'
 import Welcome from './components/welcome'
+import DisplayInput from './components/display_input'
 
 function App() {
   return (
@@ -13,7 +14,8 @@ function App() {
       {/* <TodoList /> */}
       {/* <Watch /> */}
       {/* <Count /> */}
-      <Welcome />
+      {/* <Welcome /> */}
+      <DisplayInput />
     </div>
   )
 }
