@@ -104,7 +104,6 @@ export default function TodoList() {
     handleLocalStorate(handler)
   }
 
-  console.log(todos)
   return (
     <div className={styles.todo_list}>
       <div className={styles.todo_wrap}>

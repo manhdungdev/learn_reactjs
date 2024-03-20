@@ -11,8 +11,7 @@ interface TaskListProps extends InjecredType {
   deleteTodo: (id: string) => void
 }
 export function TaskList(props: TaskListProps) {
-  const { todos, doneTask, handleDoneTodo, startEditTodo, deleteTodo, user  } = props
-  console.log(user)
+  const { todos, doneTask, handleDoneTodo, startEditTodo, deleteTodo, user } = props
   return (
     <div>
       <h2 className={styles.heading}>{doneTask ? 'Finished' : 'Unfinished'}</h2>
@@ -43,4 +42,4 @@ export function TaskList(props: TaskListProps) {
   )
 }
 
-export default connect({user: {name: 'Dung', age: 21 }})(TaskList)
+export default connect({ user: { name: 'Dung', age: 21 } })(TaskList)

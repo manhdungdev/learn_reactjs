@@ -1,0 +1,29 @@
+.header {
+  height: 150px;
+
+  &--light {
+    height: 100%;
+    background: #ccc;
+  }
+  &--dark {
+    height: 100%;
+    background: green;
+  }
+}
+
+.btn {
+  border: 1px solid #ccc;
+  padding: 10px 20px;
+  border-radius: 8px;
+
+  &--dark{
+    background: red;
+    color: #fff;
+  }
+
+  &--dark{
+    background: #000;
+    color: #fff;
+  }
+}
+

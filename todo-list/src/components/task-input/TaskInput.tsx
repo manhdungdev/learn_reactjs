@@ -1,19 +1,33 @@
-import React, { useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import styles from './task-input.module.scss'
 import { Todo } from '../../@types/Todo.type'
 import { debug, log } from '../todo-list/constant'
 import connect from '../todo-list/connect'
+import Title from '../../title'
+import { equal } from '../../title/Title'
 
-interface TaskInputProps  {
+interface TaskInputProps {
   addTodo: (name: string) => void
   currentTodo: Todo | null
   editTodo: (name: string) => void
   finishedEdit: () => void
 }
 export function TaskInput(props: TaskInputProps & typeof injectedProps) {
-  const { addTodo, editTodo, finishedEdit, currentTodo,log, debug } = props
-  log(debug)
+  const { addTodo, editTodo, finishedEdit, currentTodo, log, debug } = props
   const [name, setName] = useState<string>('')
+
+  const address = useMemo(() => {
+    return {
+      street: 'Nguyen Trai'
+    }
+  }, [])
+
+  const handleClickTitle = useMemo(() => {
+    return () => {
+      console.log('Hello world')
+    }
+  }, [])
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     if (currentTodo) {
@@ -31,8 +45,11 @@ export function TaskInput(props: TaskInputProps & typeof injectedProps) {
       setName(value)
     }
   }
+
   return (
     <div>
+      <Title address={address} clickTitle={handleClickTitle} />
+
       <h2 className={styles.heading}>To do task list</h2>
       <form action='' onSubmit={handleSubmit}>
         <div className={styles.input_wrap}>
