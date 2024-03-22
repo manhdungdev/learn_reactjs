@@ -28,6 +28,7 @@ export default function TodoList() {
     const todosString = localStorage.getItem('todos')
     const todosObj: Todo[] = JSON.parse(todosString || '[]')
     setTodos(todosObj)
+    // setTodos(null)
   }, [])
 
   const addTodo = (name: string) => {
@@ -107,7 +108,7 @@ export default function TodoList() {
   return (
     <div className={styles.todo_list}>
       <div className={styles.todo_wrap}>
-        <TaskInput addTodo={addTodo} currentTodo={currentTodo} editTodo={editTodo} finishedEdit={finishedEdit} />
+        <TaskInput addTodo={addTodo} currentTodo={currentTodo} editTodo={editTodo} finishedEdit={finishedEdit}  />
         <TaskList
           deleteTodo={deleteTodo}
           startEditTodo={startEdit}
@@ -120,6 +121,7 @@ export default function TodoList() {
           handleDoneTodo={handleDoneTodo}
           doneTask
           todos={doneTodos}
+
         />
       </div>
     </div>

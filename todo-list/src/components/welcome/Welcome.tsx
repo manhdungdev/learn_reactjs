@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useContext, useId, useMemo, useState } from 'react'
+import React, { createContext, useCallback, useContext, useDebugValue, useId, useMemo, useState } from 'react'
 import './welcome.scss'
 const ThemeContext = createContext<WelcomeType>({
   theme: {
@@ -13,14 +13,29 @@ type WelcomeType = {
   onChangeTheme: (color: 'light' | 'dark') => void
 }
 
-export default function Welcome() {
+const useTheme = () => {
   const [theme, setTheme] = useState<WelcomeType['theme']>({ color: 'light' })
-
-  const [, forceRender] = useState({})
 
   const onChangeTheme = useCallback((color: WelcomeType['theme']['color']) => {
     setTheme((prev) => ({ ...prev, color }))
   }, [])
+
+  const doTask = (value: any) => {
+    for (let i = 0; i < 10000; i++) {}
+    return value === 'light' ? 'theme is light' : 'theme is dark'
+  }
+
+  useDebugValue(theme.color, doTask)
+
+  return {
+    theme,
+    onChangeTheme
+  }
+}
+
+export default function Welcome() {
+  const { theme, onChangeTheme } = useTheme()
+  const [, forceRender] = useState({})
 
   const valueContext = useMemo(() => {
     return {
