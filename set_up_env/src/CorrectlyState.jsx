@@ -23,6 +23,8 @@ export class CorrectlyState extends Component {
     this.setState((prevState) => ({
       count: prevState.count + 5
     }));
+    console.log(this.state.count);
+    console.log('hello');
     this.setState((prevState) => ({
       count: prevState.count + 1
     }));

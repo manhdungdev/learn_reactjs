@@ -36,7 +36,7 @@ function App() {
       <BareButton /> */}
 
       {/* <LoginController isLogined={false} isHidden={true} /> */}
-      {/* <CorrectlyState /> */}
+      <CorrectlyState />
 
       {/* <ProductList /> */}
       {/* <Form /> */}
@@ -51,8 +51,8 @@ function App() {
       <button onClick={changeState}>Change state</button> */}
       {/* <AutoBatching /> */}
 
-      <Navigation />
-      <Header />
+      {/* <Navigation />
+      <Header /> */}
     </div>
   );
 }

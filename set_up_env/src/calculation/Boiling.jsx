@@ -13,6 +13,6 @@ export class Boiling extends Component {
 
 Boiling.propTypes = {
   celcius: PropTypes.number.isRequired
-}
+};
 
 export default Boiling;

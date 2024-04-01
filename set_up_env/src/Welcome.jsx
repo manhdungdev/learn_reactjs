@@ -1,12 +1,12 @@
-import React from 'react'
+import React from 'react';
 
 function Welcome(props) {
-  console.log(props)
+  console.log(props);
   return (
     <h1>
       Hello, {props.name} - {props.age}
     </h1>
-  )
+  );
 }
 
 // class Welcome extends React.Component {
@@ -16,4 +16,4 @@ function Welcome(props) {
 //   }
 // }
 
-export default Welcome
+export default Welcome;

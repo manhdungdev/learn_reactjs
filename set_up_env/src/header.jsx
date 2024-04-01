@@ -21,4 +21,3 @@ const element5 = <input type='text' />;
 const element6 = '<script>console.log("Hehehee")</script>';
 
 const element7 = <h1 className='meet'>Hello world</h1>;
-
