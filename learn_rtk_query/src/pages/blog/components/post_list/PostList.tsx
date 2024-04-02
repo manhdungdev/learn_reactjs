@@ -1,9 +1,22 @@
 import PostItem from '../post_item/PostItem'
-import { useGetPostsQuery } from 'pages/blog/blog.service'
+import { useDeletePostMutation, useGetPostsQuery } from 'pages/blog/blog.service'
 import Skeleton from '../skeleton'
+import { useDispatch } from 'react-redux'
+import { startEditing } from 'pages/blog/blog.slice'
 
 export default function PostList() {
+  const dispatch = useDispatch()
   const { data, isLoading, isFetching } = useGetPostsQuery()
+  const [deletePost, deletePostResult] = useDeletePostMutation()
+
+  const handleEditing = (id: string) => {
+    dispatch(startEditing(id))
+  }
+
+  const handleDeletePost = (id: string) => {
+    deletePost(id)
+  }
+
   return (
     <div className='bg-white py-6 sm:py-8 lg:py-12'>
       <div className='mx-auto max-w-screen-xl px-4 md:px-8'>
@@ -20,7 +33,7 @@ export default function PostList() {
               <Skeleton />
             </>
           )}
-          {!isFetching && data?.map((post) => <PostItem key={post.id} post={post} />)}
+          {!isFetching && data?.map((post) => <PostItem key={post.id} post={post} handleEditing={handleEditing} handleDeletePost={handleDeletePost} />)}
         </div>
       </div>
     </div>
