@@ -5,3 +5,4 @@ export const useQueryString = () => {
   const searchParamsObject = Object.fromEntries([...searchParams])
   return searchParamsObject
 }
+
