@@ -1,6 +1,6 @@
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { addStudent, deleteStudent, getStudent, updateStudent } from 'apis/students.apis'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useMatch, useParams } from 'react-router-dom'
 import { Student } from 'types/Student.type'
 import { isAxiosError } from 'utils/helper'
@@ -17,6 +17,12 @@ const initialFormState: FormStateType = {
   last_name: ''
 }
 
+const gender = {
+  male: 'Male',
+  female: 'Female',
+  others: 'Others'
+}
+
 export type FormError = {
   [key in keyof FormStateType]: string
 }
@@ -26,6 +32,7 @@ export default function AddStudent() {
   const addMatch = useMatch('students/add')
   const isAddMatch = Boolean(addMatch)
   const { id } = useParams()
+  const queryCLient = useQueryClient()
 
   const addStudentMutation = useMutation({
     mutationFn: (body: FormStateType) => {
@@ -33,23 +40,28 @@ export default function AddStudent() {
     }
   })
 
-  useQuery({
+  const studentQuery = useQuery({
     queryKey: ['student', id],
     queryFn: async () => {
       const data = await getStudent(id as string)
-      setFormState(data.data)
-      return data.data
+
+      return data
     },
-    enabled: id !== undefined
+    enabled: id !== undefined,
+    staleTime: 10 * 1000
   })
+
+  useEffect(() => {
+    if (studentQuery.data) {
+      setFormState(studentQuery.data.data)
+    }
+  }, [studentQuery.data])
 
   const updateStudentMutation = useMutation({
     mutationFn: (_) => {
       return updateStudent(id as string, formState as Student)
     }
   })
-
-  
 
   const formError = useMemo(() => {
     const error = isAddMatch ? addStudentMutation.error : updateStudentMutation.error
@@ -80,14 +92,14 @@ export default function AddStudent() {
       })
     } else {
       updateStudentMutation.mutate(undefined, {
-        onSuccess: () => {
+        onSuccess: (data) => {
+          queryCLient.setQueryData(['student', id], data)
           toast.success('Edit student successfully!')
           setFormState(initialFormState)
         }
       })
     }
 
-   
     // try {
     //   await mutateAsync(formState)
     //   setFormState(initialFormState)
@@ -128,8 +140,8 @@ export default function AddStudent() {
                   id='gender-1'
                   type='radio'
                   name='gender'
-                  value='male'
-                  checked={formState.gender === 'male'}
+                  value={gender.male}
+                  checked={formState.gender === gender.male}
                   onChange={handleChange('gender')}
                   className='h-4 w-4 border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600'
                 />
@@ -142,8 +154,8 @@ export default function AddStudent() {
                   id='gender-2'
                   type='radio'
                   name='gender'
-                  value='female'
-                  checked={formState.gender === 'female'}
+                  value={gender.female}
+                  checked={formState.gender === gender.female}
                   onChange={handleChange('gender')}
                   className='h-4 w-4 border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600'
                 />
@@ -156,8 +168,8 @@ export default function AddStudent() {
                   id='gender-3'
                   type='radio'
                   name='gender'
-                  value='other'
-                  checked={formState.gender === 'other'}
+                  value={gender.others}
+                  checked={formState.gender === gender.others}
                   onChange={handleChange('gender')}
                   className='h-4 w-4 border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600'
                 />

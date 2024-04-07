@@ -1,8 +1,8 @@
-import { deleteStudent, getStudents } from 'apis/students.apis'
+import { deleteStudent, getStudent, getStudents } from 'apis/students.apis'
 import { useEffect, useState } from 'react'
 import { Link, NavLink, useLocation, useSearchParams } from 'react-router-dom'
 import { Students as StudentsType } from 'types/Student.type'
-import { keepPreviousData, useMutation, useQuery } from '@tanstack/react-query'
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useQueryString } from 'utils/utils'
 import { toast } from 'react-toastify'
 
@@ -23,6 +23,7 @@ export default function Students() {
   // }, [])
 
   const queryString: { page?: string } = useQueryString()
+  const queryClient = useQueryClient()
 
   const page = Number(queryString.page) || 1
   const studentsQuery = useQuery({
@@ -30,7 +31,8 @@ export default function Students() {
     queryFn: () => getStudents(page, 10),
     placeholderData: keepPreviousData,
     staleTime: 6 * 1000,
-    gcTime: 3 * 1000
+    gcTime: 3 * 1000,
+    refetchOnWindowFocus: false
   })
   const totalStudents = Number(studentsQuery.data?.headers['x-total-count']) || 0
   const totalPages = Math.ceil(totalStudents / LIMIT)
@@ -40,9 +42,18 @@ export default function Students() {
   })
   const handleDelete = (id: string | number) => {
     deleteStudentMutation.mutate(id, {
-      onSuccess: () => {
-        toast.success('Delete student successfully!')
+      onSuccess: (_, id) => {
+        queryClient.invalidateQueries({ queryKey: ['students', page] })
+        toast.success(`Delete student successfully id ${id}!`)
       }
+    })
+  }
+
+  const handlePrefetchStudent = (id: number) => {
+    queryClient.prefetchQuery({
+      queryKey: ['student', String(id)],
+      queryFn: () => getStudent(id),
+      staleTime: 10 * 1000
     })
   }
 
@@ -104,6 +115,7 @@ export default function Students() {
               {studentsQuery.data?.data.map((student) => (
                 <tr
                   key={student.id}
+                  onMouseEnter={() => handlePrefetchStudent(student.id)}
                   className='border-b bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600'
                 >
                   <td className='py-4 px-6'>{student.id}</td>
