@@ -28,7 +28,13 @@ export default function Students() {
   const page = Number(queryString.page) || 1
   const studentsQuery = useQuery({
     queryKey: ['students', page],
-    queryFn: () => getStudents(page, 10),
+    queryFn: ({ signal }) => {
+      // const controller = new AbortController()
+      // setTimeout(() => {
+      //   controller.abort()
+      // }, 5000)
+      return getStudents(page, LIMIT, signal)
+    },
     placeholderData: keepPreviousData,
     staleTime: 6 * 1000,
     gcTime: 3 * 1000,
@@ -49,12 +55,29 @@ export default function Students() {
     })
   }
 
-  const handlePrefetchStudent = (id: number) => {
+  // const handlePrefetchStudent = (id: number) => {
+  //   queryClient.prefetchQuery({
+  //     queryKey: ['student', String(id)],
+  //     queryFn: () => getStudent(id),
+  //     staleTime: 10 * 1000
+  //   })
+  // }
+
+  const handlePrefetchStudent = (seconds: number) => {
+    const id = '6'
     queryClient.prefetchQuery({
-      queryKey: ['student', String(id)],
+      queryKey: ['student', id],
       queryFn: () => getStudent(id),
-      staleTime: 10 * 1000
+      staleTime: seconds * 1000
     })
+  }
+
+  const refetchStudents = () => {
+    studentsQuery.refetch()
+  }
+
+  const cancelRequestStudents = () => {
+    queryClient.cancelQueries({ queryKey: ['students', page] })
   }
 
   return (
@@ -69,7 +92,20 @@ export default function Students() {
         Add student
       </Link>
 
-      {studentsQuery.isPending && (
+      <button onClick={() => handlePrefetchStudent(10)} className='5 rounded bg-blue-500 px-5 py-2'>
+        Click 10s
+      </button>
+      <button onClick={() => handlePrefetchStudent(2)} className='5 rounded bg-blue-500 px-5 py-2'>
+        Click 10s
+      </button>
+      <button onClick={refetchStudents} className='5 rounded bg-pink-500 px-5 py-2'>
+        Refetch Students
+      </button>
+      <button onClick={cancelRequestStudents} className='5 rounded bg-red-500 px-5 py-2'>
+        Cancel query
+      </button>
+
+      {studentsQuery.isLoading && (
         <>
           <div role='status' className='mt-6 animate-pulse'>
             <div className='mb-4 h-4  rounded bg-gray-200 dark:bg-gray-700' />
@@ -89,7 +125,7 @@ export default function Students() {
           </div>
         </>
       )}
-      {!studentsQuery.isPending && (
+      {!studentsQuery.isLoading && (
         <div className='relative mt-6 overflow-x-auto shadow-md sm:rounded-lg'>
           <table className='w-full text-left text-sm text-gray-500 dark:text-gray-400'>
             <thead className='bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400'>
@@ -115,7 +151,7 @@ export default function Students() {
               {studentsQuery.data?.data.map((student) => (
                 <tr
                   key={student.id}
-                  onMouseEnter={() => handlePrefetchStudent(student.id)}
+                  // onMouseEnter={() => handlePrefetchStudent(student.id)}
                   className='border-b bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600'
                 >
                   <td className='py-4 px-6'>{student.id}</td>
